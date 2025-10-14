@@ -26,6 +26,6 @@ public sealed class ConsultantViewModel
         Email = dto.Email,
         StartDate = dto.StartDate,
         IsAvailable = dto.IsAvailable,
-        Skills = string.Join(", ", dto.Skills.Select(skill => skill.Title);
+        Skills = string.Join(", ", dto.Skills.Select(skill => skill.Title))
     };  
 }
