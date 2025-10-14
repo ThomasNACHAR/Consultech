@@ -5,3 +5,5 @@ riderModule.iml
 /_ReSharper.Caches/
 .DS_Store
 **/.DS_Store
+Consultech.API/appsettings.json
+Consultech.API/appsettings.Development.json
