@@ -9,17 +9,17 @@ public sealed class Consultant
     public int Id { get; set; }
     
     [Required]
-    public string firstName { get; set; }
+    public string FirstName { get; set; }
     
     [Required]
-    public string lastName { get; set; }
+    public string LastName { get; set; }
     
-    public DateTime startDate { get; set; }
+    public DateTime StartDate { get; set; }
     
     [Required]
-    public string email { get; set; }
+    public string Email { get; set; }
     
-    public bool isAvailable { get; set; } = true;
+    public bool IsAvailable { get; set; } = true;
     
     public ICollection<Skill> Skills { get; set; } = new List<Skill>();
 }
