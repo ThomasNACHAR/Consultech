@@ -1,0 +1,20 @@
+﻿@using Consultech.Web.Models.Consultants
+@model ConsultantViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Consultant</h4>
+    <hr />
+
+    <partial Name="_DetailsPartial" Model="@Model" />
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

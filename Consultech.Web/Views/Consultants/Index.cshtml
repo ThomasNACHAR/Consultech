@@ -1,0 +1,61 @@
+﻿@using Consultech.Web.Models.Consultants
+@model IEnumerable<ConsultantViewModel>
+
+@{
+    ViewData["Title"] = "Consultants";
+}
+
+<h1>Consultants</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Créer un nouveau Consultant</a>
+</p>
+
+<table class="table">
+    <thhead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Skills)
+            </th>
+        </tr>
+    </thhead>
+    <tbody>
+        @foreach (var consultant in Model)
+        {
+            <tr>
+                <td>
+                    @consultant.FirstName @consultant.LastName
+                </td>
+                <td>
+                    @consultant.Email
+                </td>
+                <td>
+                    @consultant.StartDate.ToShortDateString()
+                </td>
+                <td>
+                    @consultant.IsAvailable
+                </td>
+                <td>
+                    @string.Join(", ", consultant.Skills)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@consultant.Id" class="btn btn-secondary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@consultant.Id" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@consultant.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
