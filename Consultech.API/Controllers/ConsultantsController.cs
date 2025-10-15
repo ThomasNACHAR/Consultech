@@ -62,12 +62,21 @@ namespace ConsultTech.Api.Controllers
 
         // PUT: api/consultants/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, ConsultantDto consultant)
+        public async Task<IActionResult> Update(int id, ConsultantInput consultant)
         {
             if (id != consultant.Id)
                 return BadRequest("L’ID ne correspond pas.");
 
-            var updatedId = await _consultantService.Update(consultant);
+            var updatedId = await _consultantService.Update(new ConsultantDto
+            {
+                Id = consultant.Id,
+                FirstName = consultant.FirstName,
+                LastName = consultant.LastName,
+                Email = consultant.Email,
+                StartDate = consultant.StartDate,
+                IsAvailable = consultant.IsAvailable,
+                Skills = consultant.SkillsId.Select(id => new SkillDto { Id = id }).ToList()
+            });
             if (updatedId <= 0)
                 return NotFound(new { message = "Consultant introuvable." });
 
