@@ -99,11 +99,9 @@ namespace Consultech.Web.Controllers
             {
                 var json = JsonSerializer.Serialize(consultant);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await this._httpClient.PutAsync($"api/consultants/{consultant.Id}", content);
+                var response = await this._httpClient.PutAsync($"api/consultants/{id}", content);
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
-                else
-                    ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la modification du consultant.");
             }
             return View(await PopulateListAsync(consultant));
         }

@@ -76,9 +76,9 @@ internal sealed class ConsultantService(ConsultechDbContext dbContext) : IConsul
         foundConsultant.StartDate = consultant.StartDate;
         foundConsultant.IsAvailable = consultant.IsAvailable;
 
-        var result = await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         await this.AssignSkills(foundConsultant.Id, consultant.Skills.Select(s => s.Id).ToList());
-        return result > 0 ? foundConsultant.Id : -1;
+        return foundConsultant.Id;
     }
 
     /// <summary>
