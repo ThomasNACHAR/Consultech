@@ -23,7 +23,9 @@ public sealed class Mission
     [Precision(18, 2)]
     public decimal Budget { get; set; }
 
-    public Client Client { get; set; }
+    public int? ClientId { get; set; }
+    public Client? Client { get; set; }
 
-    public Consultant Consultant { get; set; }
+    public int? ConsultantId { get; set; }
+    public Consultant? Consultant { get; set; }
 }
