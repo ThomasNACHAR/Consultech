@@ -6,7 +6,7 @@ public sealed class ConsultantDTO
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Now;
     public bool IsAvailable { get; set; } = true;
-    public List<SkillDTO> Skills { get; set; } = new List<SkillDTO>();
+    public List<SkillDTO> Skills { get; set; } = new();
 }

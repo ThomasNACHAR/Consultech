@@ -3,6 +3,7 @@ using Consultech.Web.Models.Consultants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 using System.Text.Json;
 
 namespace Consultech.Web.Controllers
@@ -99,14 +100,14 @@ namespace Consultech.Web.Controllers
             if (ModelState.IsValid)
             {
                 var json = JsonSerializer.Serialize(consultant);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"api/consultants/{id}", content);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await this._httpClient.PutAsync($"api/consultants/{consultant.Id}", content);
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
                 else
                     ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la modification du consultant.");
             }
-            return View(consultant);
+            return View(await PopulateListAsync(consultant));
         }
 
         // GET: Consultants/Delete/5
