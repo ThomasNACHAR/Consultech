@@ -1,4 +1,6 @@
-﻿using Consultech.DAL;
+﻿using Consultech.Business.Abstractions;
+using Consultech.Business.DTOs;
+using Consultech.DAL;
 using Consultech.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,21 +11,18 @@ namespace Consultech.API.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly ConsultechDbContext _context;
+        private readonly IClientService _clientService;
 
-        public ClientsController(ConsultechDbContext context)
+        public ClientsController(IClientService clientService)
         {
-            _context = context;
+            _clientService = clientService;
         }
 
         // GET: api/clients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Client>>> GetAll()
         {
-            var clients = await _context.Clients
-                .Include(c => c.Missions)
-                .ToListAsync();
-
+            var clients = await _clientService.GetAll();
             return Ok(clients);
         }
 
@@ -31,10 +30,7 @@ namespace Consultech.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Client>> GetById(int id)
         {
-            var client = await _context.Clients
-                .Include(c => c.Missions)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
+            var client = await _clientService.GetById(id);
             if (client == null)
                 return NotFound(new { message = "Client non trouvé." });
 
@@ -43,65 +39,70 @@ namespace Consultech.API.Controllers
 
         // POST: api/clients
         [HttpPost]
-        public async Task<ActionResult<Client>> Create([FromBody] Client client)
+        public async Task<ActionResult<Client>> Create([FromBody] ClientDto client)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _context.Clients.Add(client);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
+            try
+            {
+                var createdId = await _clientService.Create(client);
+                return CreatedAtAction(nameof(GetById), new { id = createdId }, client);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // PUT: api/clients/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Client client)
+        public async Task<IActionResult> Update(int id, [FromBody] ClientDto client)
         {
             if (id != client.Id)
                 return BadRequest(new { message = "L'ID ne correspond pas à l'entité fournie." });
 
-            var existingClient = await _context.Clients.FindAsync(id);
-            if (existingClient == null)
-                return NotFound(new { message = "Client introuvable." });
+            try
+            {
+                var updatedId = await _clientService.Update(client);
+                if (updatedId <= 0)
+                    return NotFound(new { message = "Client introuvable." });
 
-            existingClient.CompanyName = client.CompanyName;
-            existingClient.Email = client.Email;
-            existingClient.Address = client.Address;
-            existingClient.ActivitySector = client.ActivitySector;
-
-            _context.Entry(existingClient).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/clients/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null)
-                return NotFound(new { message = "Client introuvable." });
+            try
+            {
+                var deleted = await _clientService.Delete(id);
+                if (!deleted)
+                    return NotFound(new { message = "Client introuvable." });
 
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
 
         [HttpGet("{id}/missions")]
         public async Task<ActionResult<IEnumerable<Mission>>> GetMissionsByClient(int id)
         {
-            var client = await _context.Clients
-                .Include(c => c.Missions)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var missions = await _clientService.GetMissionsByClient(id);
+            if (missions == null || !missions.Any())
+                return NotFound(new { message = "Aucune mission trouvée pour ce client." });
 
-            if (client == null)
-                return NotFound(new { message = "Client non trouvé." });
-
-            return Ok(client.Missions);
+            return Ok(missions);
         }
     }
 }
