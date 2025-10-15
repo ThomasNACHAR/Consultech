@@ -48,7 +48,7 @@ tpfinalConsultech/
 │
 └── README.md # Documentation du projet
 
-👥 Auteurs
+## 👥 Auteurs
 
 👨‍💻 Pierre DELAROCQUE
 👨‍💻 Thomas NACHAR
