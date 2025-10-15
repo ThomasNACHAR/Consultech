@@ -1,6 +1,5 @@
 
 using Consultech.Business.Extensions;
-
 using Consultech.DAL;
 using Microsoft.EntityFrameworkCore;
 

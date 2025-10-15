@@ -93,5 +93,18 @@ public static class ConsultechDbContextSeed
                 ConsultantId = 5
             }
         );
+        
+        // --- CONSULTANT <-> SKILL (RELATION N-N) ---
+        modelBuilder.Entity("ConsultantSkill").HasData(
+            new { ConsultantsId = 1, SkillsId = 1 },
+            new { ConsultantsId = 1, SkillsId = 4 },
+            new { ConsultantsId = 2, SkillsId = 2 },
+            new { ConsultantsId = 2, SkillsId = 5 },
+            new { ConsultantsId = 3, SkillsId = 3 },
+            new { ConsultantsId = 3, SkillsId = 1 },
+            new { ConsultantsId = 4, SkillsId = 3 },
+            new { ConsultantsId = 5, SkillsId = 5 },
+            new { ConsultantsId = 5, SkillsId = 4 }
+        );
     }
 }
