@@ -46,8 +46,6 @@ namespace Consultech.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,StartDate,IsAvailable,SkillsId")] ConsultantInputViewModel consultant)
         {
-            var httpResponse = await this._httpClient.GetAsync($"api/consultants/{consultant.Id}");
-
             if (ModelState.IsValid)
             {
                 var response = await _httpClient.PostAsJsonAsync("api/consultants", consultant);

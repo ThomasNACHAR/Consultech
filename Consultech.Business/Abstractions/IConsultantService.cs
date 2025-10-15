@@ -14,7 +14,5 @@ public interface IConsultantService
 
     Task<bool> Delete(int id);
 
-    Task<bool> AssignSkills(int consultantId, List<int> skillIds);
-
     Task<List<ConsultantDto>> GetAvailableConsultants();
 }
