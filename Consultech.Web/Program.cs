@@ -3,6 +3,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient(
+    "ConsultechApi",
+    options =>
+    {
+        options.BaseAddress = new Uri(builder.Configuration["ConsultechApi:BaseUri"]);
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

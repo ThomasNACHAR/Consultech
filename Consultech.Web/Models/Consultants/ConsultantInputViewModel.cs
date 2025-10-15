@@ -7,7 +7,6 @@ namespace Consultech.Web.Models.Consultants;
 
 public sealed class ConsultantInputViewModel
 {
-    [HiddenInput]
     public int Id { get; set; }
     [Display(Name = "Prénom")]
     public string FirstName { get; set; } = string.Empty;
