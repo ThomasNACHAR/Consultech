@@ -10,16 +10,16 @@ public sealed class Consultant
 
     [Required]
     public string FirstName { get; set; }
-
+    
     [Required]
     public string LastName { get; set; }
-
+    
     public DateTime StartDate { get; set; }
-
+    
     [Required]
     public string Email { get; set; }
-
+    
     public bool IsAvailable { get; set; } = true;
-
+    
     public ICollection<Skill> Skills { get; set; } = new List<Skill>();
 }
