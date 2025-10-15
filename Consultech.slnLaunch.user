@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Consultech.API\\Consultech.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Consultech.Web\\Consultech.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
