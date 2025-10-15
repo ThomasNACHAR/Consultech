@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Consultech.Business\Consultech.Business.csproj" />
       <ProjectReference Include="..\Consultech.DAL\Consultech.DAL.csproj" />
     </ItemGroup>
 
