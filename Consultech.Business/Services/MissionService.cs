@@ -48,8 +48,6 @@ internal sealed class MissionService(ConsultechDbContext dbContext) : IMissionSe
         // Récupère les entités associées existantes
         var client = await dbContext.Clients.FindAsync(mission.Client.Id)
                      ?? throw new Exception("Client not found.");
-        var consultant = await dbContext.Consultants.FindAsync(mission.Consultant.Id)
-                          ?? throw new Exception("Consultant not found.");
 
         var missionToCreate = new Mission
         {
@@ -58,8 +56,7 @@ internal sealed class MissionService(ConsultechDbContext dbContext) : IMissionSe
             StartDate = mission.StartDate,
             EndDate = mission.EndDate,
             Budget = mission.Budget,
-            Client = client,
-            Consultant = consultant
+            Client = client
         };
 
         dbContext.Missions.Add(missionToCreate);
@@ -87,14 +84,10 @@ internal sealed class MissionService(ConsultechDbContext dbContext) : IMissionSe
         foundMission.EndDate = mission.EndDate;
         foundMission.Budget = mission.Budget;
 
-        // Mise à jour des entités liées
         var client = await dbContext.Clients.FindAsync(mission.Client.Id)
                      ?? throw new Exception("Client not found.");
-        var consultant = await dbContext.Consultants.FindAsync(mission.Consultant.Id)
-                          ?? throw new Exception("Consultant not found.");
 
         foundMission.Client = client;
-        foundMission.Consultant = consultant;
 
         var result = await dbContext.SaveChangesAsync();
         return result > 0 ? foundMission.Id : -1;
