@@ -1,4 +1,6 @@
-﻿using Consultech.DAL;
+﻿using Consultech.Business.Abstractions;
+using Consultech.Business.DTOs;
+using Consultech.DAL;
 using Consultech.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,21 +11,18 @@ namespace Consultech.API.Controllers
     [ApiController]
     public class MissionsController : ControllerBase
     {
-        private readonly ConsultechDbContext _context;
+        private readonly IMissionService _missionService;
 
-        public MissionsController(ConsultechDbContext context)
+        public MissionsController(IMissionService missionService)
         {
-            _context = context;
+            _missionService = missionService;
         }
 
         // GET: api/missions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Mission>>> GetAll()
         {
-            var missions = await _context.Missions
-                .Include(m => m.Client)
-                .Include(m => m.Consultant)
-                .ToListAsync();
+            var missions = await _missionService.GetAll();
 
             return Ok(missions);
         }
@@ -32,10 +31,7 @@ namespace Consultech.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Mission>> GetById(int id)
         {
-            var mission = await _context.Missions
-                .Include(m => m.Client)
-                .Include(m => m.Consultant)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var mission = await _missionService.GetById(id);
 
             if (mission == null)
                 return NotFound(new { message = "Mission non trouvée." });
@@ -45,42 +41,26 @@ namespace Consultech.API.Controllers
 
         // POST: api/missions
         [HttpPost]
-        public async Task<ActionResult<Mission>> Create([FromBody] Mission mission)
+        public async Task<ActionResult<Mission>> Create([FromBody] MissionDto mission)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _context.Missions.Add(mission);
-            await _context.SaveChangesAsync();
+            var createdId = await _missionService.Create(mission);
 
             return CreatedAtAction(nameof(GetById), new { id = mission.Id }, mission);
         }
 
         // PUT: api/missions/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Mission mission)
+        public async Task<IActionResult> Update(int id, [FromBody] MissionDto mission)
         {
             if (id != mission.Id)
                 return BadRequest(new { message = "L'ID ne correspond pas à la mission envoyée." });
 
-            var existingMission = await _context.Missions
-                .Include(m => m.Client)
-                .Include(m => m.Consultant)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (existingMission == null)
+            var updatedId = await _missionService.Update(mission);
+            if (updatedId <= 0)
                 return NotFound(new { message = "Mission introuvable." });
-
-            existingMission.Title = mission.Title;
-            existingMission.Description = mission.Description;
-            existingMission.StartDate = mission.StartDate;
-            existingMission.EndDate = mission.EndDate;
-            existingMission.Budget = mission.Budget;
-            existingMission.Client = mission.Client;
-            existingMission.Consultant = mission.Consultant;
-
-            _context.Entry(existingMission).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -89,12 +69,11 @@ namespace Consultech.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var mission = await _context.Missions.FindAsync(id);
-            if (mission == null)
+            var deleted = await _missionService.Delete(id);
+            if (!deleted)
                 return NotFound(new { message = "Mission introuvable." });
 
-            _context.Missions.Remove(mission);
-            await _context.SaveChangesAsync();
+
 
             return NoContent();
         }

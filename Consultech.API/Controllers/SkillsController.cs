@@ -1,4 +1,6 @@
-﻿using Consultech.DAL;
+﻿using Consultech.Business.Abstractions;
+using Consultech.Business.DTOs;
+using Consultech.DAL;
 using Consultech.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,18 +11,18 @@ namespace Consultech.API.Controllers
     [ApiController]
     public class SkillsController : ControllerBase
     {
-        private readonly ConsultechDbContext _context;
+        private readonly ISkillService _skillService;
 
-        public SkillsController(ConsultechDbContext context)
+        public SkillsController(ISkillService skillService)
         {
-            _context = context;
+            _skillService = skillService;
         }
 
         // GET: api/skills
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Skill>>> GetAll()
         {
-            var skills = await _context.Skills.ToListAsync();
+            var skills = await _skillService.GetAll();
             return Ok(skills);
         }
 
@@ -28,7 +30,7 @@ namespace Consultech.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Skill>> GetById(int id)
         {
-            var skill = await _context.Skills.FindAsync(id);
+            var skill = await _skillService.GetById(id);
             if (skill == null)
                 return NotFound(new { message = "Compétence non trouvée." });
             return Ok(skill);
@@ -36,34 +38,28 @@ namespace Consultech.API.Controllers
 
         // POST: api/skills
         [HttpPost]
-        public async Task<ActionResult<Skill>> Create([FromBody] Skill skill)
+        public async Task<ActionResult<Skill>> Create([FromBody] SkillDto skill)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _context.Skills.Add(skill);
-            await _context.SaveChangesAsync();
+            var createdId = await _skillService.Create(skill);
 
             return CreatedAtAction(nameof(GetById), new { id = skill.Id }, skill);
         }
 
         // PUT: api/skills/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Skill skill)
+        public async Task<IActionResult> Update(int id, [FromBody] SkillDto skill)
         {
             if (id != skill.Id)
                 return BadRequest(new { message = "L'ID ne correspond pas à la compétence envoyée." });
 
-            var existingSkill = await _context.Skills.FindAsync(id);
-            if (existingSkill == null)
+            var updatedId = await _skillService.Update(skill);
+            if (updatedId <= 0)
                 return NotFound(new { message = "Compétence introuvable." });
 
-            existingSkill.Title = skill.Title;
-            existingSkill.Category = skill.Category;
-            existingSkill.Level = skill.Level;
 
-            _context.Entry(existingSkill).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -72,12 +68,11 @@ namespace Consultech.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var skill = await _context.Skills.FindAsync(id);
-            if (skill == null)
+            var deleted = await _skillService.Delete(id);
+            if (!deleted)
                 return NotFound(new { message = "Compétence introuvable." });
 
-            _context.Skills.Remove(skill);
-            await _context.SaveChangesAsync();
+
 
             return NoContent();
         }

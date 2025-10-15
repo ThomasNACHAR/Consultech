@@ -4,6 +4,7 @@ using Consultech.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Consultech.DAL.Migrations
 {
     [DbContext(typeof(ConsultechDbContext))]
-    partial class ConsultechDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251015100933_InitialSeed")]
+    partial class InitialSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,53 +38,6 @@ namespace Consultech.DAL.Migrations
                     b.HasIndex("SkillsId");
 
                     b.ToTable("ConsultantSkill");
-
-                    b.HasData(
-                        new
-                        {
-                            ConsultantsId = 1,
-                            SkillsId = 1
-                        },
-                        new
-                        {
-                            ConsultantsId = 1,
-                            SkillsId = 4
-                        },
-                        new
-                        {
-                            ConsultantsId = 2,
-                            SkillsId = 2
-                        },
-                        new
-                        {
-                            ConsultantsId = 2,
-                            SkillsId = 5
-                        },
-                        new
-                        {
-                            ConsultantsId = 3,
-                            SkillsId = 3
-                        },
-                        new
-                        {
-                            ConsultantsId = 3,
-                            SkillsId = 1
-                        },
-                        new
-                        {
-                            ConsultantsId = 4,
-                            SkillsId = 3
-                        },
-                        new
-                        {
-                            ConsultantsId = 5,
-                            SkillsId = 5
-                        },
-                        new
-                        {
-                            ConsultantsId = 5,
-                            SkillsId = 4
-                        });
                 });
 
             modelBuilder.Entity("Consultech.DAL.Entities.Client", b =>

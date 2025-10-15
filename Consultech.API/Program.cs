@@ -1,3 +1,5 @@
+
+using Consultech.Business.Extensions;
 using Consultech.DAL;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ConsultechDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddConsultechBusiness();
+
 
 var app = builder.Build();
 

@@ -1,28 +1,28 @@
-﻿using Consultech.DAL;
+﻿using Consultech.Business.Abstractions;
+using Consultech.Business.DTOs;
+using Consultech.DAL;
 using Consultech.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsultTech.Api.Controllers
+namespace Consultech.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ConsultantsController : ControllerBase
     {
-        private readonly ConsultechDbContext _context;
+        private readonly IConsultantService _consultantService;
 
-        public ConsultantsController(ConsultechDbContext context)
+        public ConsultantsController(IConsultantService consultantService)
         {
-            _context = context;
+            _consultantService = consultantService;
         }
 
         // GET: api/consultants
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Consultant>>> GetAll()
         {
-            var consultants = await _context.Consultants
-                .Include(c => c.Skills)
-                .ToListAsync();
+            var consultants = await _consultantService.GetAll();
 
             return Ok(consultants);
         }
@@ -31,9 +31,7 @@ namespace ConsultTech.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Consultant>> GetById(int id)
         {
-            var consultant = await _context.Consultants
-                .Include(c => c.Skills)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var consultant = await _consultantService.GetById(id);
 
             if (consultant == null)
                 return NotFound(new { message = "Consultant non trouvé." });
@@ -43,37 +41,26 @@ namespace ConsultTech.Api.Controllers
 
         // POST: api/consultants
         [HttpPost]
-        public async Task<ActionResult> Create(Consultant consultant)
+        public async Task<ActionResult> Create(ConsultantDto consultant)
         {
-            if (consultant == null)
-                return BadRequest("Les données du consultant sont invalides.");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            _context.Consultants.Add(consultant);
-            await _context.SaveChangesAsync();
+            var createdId = await _consultantService.Create(consultant);
 
             return CreatedAtAction(nameof(GetById), new { id = consultant.Id }, consultant);
         }
 
         // PUT: api/consultants/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Consultant consultant)
+        public async Task<IActionResult> Update(int id, ConsultantDto consultant)
         {
             if (id != consultant.Id)
                 return BadRequest("L’ID ne correspond pas.");
 
-            _context.Entry(consultant).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Consultants.Any(c => c.Id == id))
-                    return NotFound(new { message = "Consultant introuvable." });
-
-                throw;
-            }
+            var updatedId = await _consultantService.Update(consultant);
+            if (updatedId <= 0)
+                return NotFound(new { message = "Consultant introuvable." });
 
             return NoContent();
         }
@@ -82,12 +69,9 @@ namespace ConsultTech.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var consultant = await _context.Consultants.FindAsync(id);
-            if (consultant == null)
+            var deleted = await _consultantService.Delete(id);
+            if (!deleted)
                 return NotFound(new { message = "Consultant introuvable." });
-
-            _context.Consultants.Remove(consultant);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
