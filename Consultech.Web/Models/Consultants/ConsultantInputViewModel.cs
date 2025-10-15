@@ -18,7 +18,7 @@ public sealed class ConsultantInputViewModel
     public DateTime StartDate { get; set; }
     [Display(Name = "Disponible")]
     public bool IsAvailable { get; set; } = true;
-    [Display(Name = "Compétences (séparées par des virgules)")]
+    [Display(Name = "Compétences")]
     public List<int> SkillsId { get; set; } = new();
     [ValidateNever]
     public List<SelectListItem> Skills { get; set; } = new();

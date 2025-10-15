@@ -1,6 +1,6 @@
 [
   {
-    "Name": "New Profile",
+    "Name": "Dev",
     "Projects": [
       {
         "Path": "Consultech.API\\Consultech.API.csproj",

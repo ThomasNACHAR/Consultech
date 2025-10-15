@@ -1,4 +1,5 @@
-﻿using Consultech.Business.Abstractions;
+﻿using Consultech.API.Models;
+using Consultech.Business.Abstractions;
 using Consultech.Business.DTOs;
 using Consultech.DAL;
 using Consultech.DAL.Entities;
@@ -41,12 +42,20 @@ namespace ConsultTech.Api.Controllers
 
         // POST: api/consultants
         [HttpPost]
-        public async Task<ActionResult> Create(ConsultantDto consultant)
+        public async Task<ActionResult> Create(ConsultantInput consultant)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var createdId = await _consultantService.Create(consultant);
+            var createdId = await _consultantService.Create(new ConsultantDto
+            {
+                FirstName = consultant.FirstName,
+                LastName = consultant.LastName,
+                Email = consultant.Email,
+                StartDate = consultant.StartDate,
+                IsAvailable = consultant.IsAvailable,
+                Skills = consultant.SkillsId.Select(id => new SkillDto { Id = id }).ToList()
+            });
 
             return CreatedAtAction(nameof(GetById), new { id = consultant.Id }, consultant);
         }
