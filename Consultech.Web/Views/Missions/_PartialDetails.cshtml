@@ -1,0 +1,48 @@
+﻿@using Consultech.Web.Models.Missions
+@model MissionViewModel
+
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Title)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Title
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Description
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ClientCompanyName)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.ClientCompanyName
+    </dd>
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.StartDate)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.StartDate.ToShortDateString()
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.EndDate)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.EndDate.ToShortDateString() ?? "En cours"
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Budget)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Budget.ToString("C")
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ConsultantFullName)
+    </dt>
+    <dd class="col-sm-10">
+        @Model.ConsultantFullName
+    </dd>
+
+</dl>
