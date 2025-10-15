@@ -20,7 +20,7 @@ namespace Consultech.Web.Controllers
         {
             // TODO : Check API route
 
-            var consultantsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<ConsultantDTO>>("consultants");
+            var consultantsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<ConsultantDTO>>("api/consultants");
             var consultants = consultantsFromApi.Select(consultantDTO => 
                 ConsultantViewModel.FromDTO(consultantDTO)) ?? new List<ConsultantViewModel>();
             return View(consultants);
@@ -31,7 +31,7 @@ namespace Consultech.Web.Controllers
         {
             // TODO : Check API route
 
-            var consultantFromApi = await _httpClient.GetFromJsonAsync<ConsultantDTO>($"consultants/{id}");
+            var consultantFromApi = await _httpClient.GetFromJsonAsync<ConsultantDTO>($"api/consultants/{id}");
             var consultant = ConsultantViewModel.FromDTO(consultantFromApi ?? new ConsultantDTO());
             return View(consultant);
         }
@@ -49,11 +49,11 @@ namespace Consultech.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,StartDate,IsAvailable,SkillsId")] ConsultantInputViewModel consultant)
         {
-            var httpResponse = await this._httpClient.GetAsync($"consultants/{consultant.Id}");
+            var httpResponse = await this._httpClient.GetAsync($"api/consultants/{consultant.Id}");
 
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync("consultants", consultant);
+                var response = await _httpClient.PostAsJsonAsync("api/consultants", consultant);
 
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
@@ -70,7 +70,7 @@ namespace Consultech.Web.Controllers
         // GET: Consultants/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var httpResponse = await this._httpClient.GetAsync($"consultants/{id}");
+            var httpResponse = await this._httpClient.GetAsync($"api/consultants/{id}");
 
             if (!httpResponse.IsSuccessStatusCode)
                 return NotFound();
@@ -104,7 +104,7 @@ namespace Consultech.Web.Controllers
             {
                 var json = JsonSerializer.Serialize(consultant);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-                var response = _httpClient.PutAsync($"consultants/{id}", content).Result;
+                var response = _httpClient.PutAsync($"api/consultants/{id}", content).Result;
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
                 else
@@ -116,7 +116,7 @@ namespace Consultech.Web.Controllers
         // GET: Consultants/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var httpResponse = await this._httpClient.GetAsync($"consultants/{id}");
+            var httpResponse = await this._httpClient.GetAsync($"api/consultants/{id}");
 
             if (!httpResponse.IsSuccessStatusCode)
                 return NotFound();
@@ -132,7 +132,7 @@ namespace Consultech.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var httpResponse = await this._httpClient.DeleteAsync($"consultants/{id}");
+            var httpResponse = await this._httpClient.DeleteAsync($"api/consultants/{id}");
 
             if (httpResponse.IsSuccessStatusCode)
                 return RedirectToAction(nameof(Index));
@@ -142,7 +142,7 @@ namespace Consultech.Web.Controllers
 
         private async Task<ConsultantInputViewModel> PopulateListAsync(ConsultantInputViewModel consultant)
         {
-            var skillsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<SkillDTO>>("skills");
+            var skillsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<SkillDTO>>("api/skills");
             consultant.Skills = skillsFromApi.Select(skill => new SelectListItem {
                 Value = skill.Id.ToString(), Text = skill.Title 
             }).ToList();
