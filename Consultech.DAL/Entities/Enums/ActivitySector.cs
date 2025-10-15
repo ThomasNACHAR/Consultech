@@ -1,14 +1,14 @@
-namespace Consultech.DAL.Entities.Enums;
+    namespace Consultech.DAL.Entities.Enums;
 
-public enum ActivitySector
-{
-    InformationTechnology,
-    Finance,
-    Healthcare,
-    Energy,
-    Manufacturing,
-    Retail,
-    Transportation,
-    Education,
-    Telecommunications
-}
+    public enum ActivitySector
+    {
+        InformationTechnology,
+        Finance,
+        Healthcare,
+        Energy,
+        Manufacturing,
+        Retail,
+        Transportation,
+        Education,
+        Telecommunications
+    }
