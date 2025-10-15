@@ -13,13 +13,11 @@ namespace Consultech.Web.Controllers
 
         public ConsultantsController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("ApiClient");
+            _httpClient = httpClientFactory.CreateClient("ConsultechApi");
         }
         // GET: Consultants
         public async Task<ActionResult> Index()
         {
-            // TODO : Check API route
-
             var consultantsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<ConsultantDTO>>("api/consultants");
             var consultants = consultantsFromApi.Select(consultantDTO => 
                 ConsultantViewModel.FromDTO(consultantDTO)) ?? new List<ConsultantViewModel>();
@@ -29,8 +27,6 @@ namespace Consultech.Web.Controllers
         // GET: Consultants/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            // TODO : Check API route
-
             var consultantFromApi = await _httpClient.GetFromJsonAsync<ConsultantDTO>($"api/consultants/{id}");
             var consultant = ConsultantViewModel.FromDTO(consultantFromApi ?? new ConsultantDTO());
             return View(consultant);
@@ -79,7 +75,7 @@ namespace Consultech.Web.Controllers
 
             var consultant = new ConsultantInputViewModel
             {
-                Id = consultantFromApi.Id,
+                Id = id,
                 FirstName = consultantFromApi.FirstName,
                 LastName = consultantFromApi.LastName,
                 Email = consultantFromApi.Email,
@@ -89,13 +85,13 @@ namespace Consultech.Web.Controllers
             };
 
             consultant = await this.PopulateListAsync(consultant);
-            return View();
+            return View(consultant);
         }
 
         // POST: Consultants/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind("FirstName,LastName,Email,StartDate,IsAvailable,SkillsId")] ConsultantInputViewModel consultant)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,StartDate,IsAvailable,SkillsId")] ConsultantInputViewModel consultant)
         {
             if (id != consultant.Id)
                 return NotFound();
@@ -104,7 +100,7 @@ namespace Consultech.Web.Controllers
             {
                 var json = JsonSerializer.Serialize(consultant);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-                var response = _httpClient.PutAsync($"api/consultants/{id}", content).Result;
+                var response = await _httpClient.PutAsync($"api/consultants/{id}", content);
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
                 else
