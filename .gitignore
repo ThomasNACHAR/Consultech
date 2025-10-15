@@ -3,5 +3,8 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+.vs/
 .DS_Store
 **/.DS_Store
+Consultech.API/appsettings.json
+Consultech.API/appsettings.Development.json
