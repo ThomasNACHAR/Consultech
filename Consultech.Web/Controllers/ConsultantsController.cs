@@ -1,9 +1,9 @@
-﻿using Consultech.Web.DTOs;
+﻿using System.Text.Json;
+using Consultech.Web.DTOs;
 using Consultech.Web.Models.Consultants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text.Json;
 
 namespace Consultech.Web.Controllers
 {
@@ -19,7 +19,7 @@ namespace Consultech.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var consultantsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<ConsultantDTO>>("api/consultants");
-            var consultants = consultantsFromApi.Select(consultantDTO => 
+            var consultants = consultantsFromApi.Select(consultantDTO =>
                 ConsultantViewModel.FromDTO(consultantDTO)) ?? new List<ConsultantViewModel>();
             return View(consultants);
         }
@@ -139,8 +139,10 @@ namespace Consultech.Web.Controllers
         private async Task<ConsultantInputViewModel> PopulateListAsync(ConsultantInputViewModel consultant)
         {
             var skillsFromApi = await _httpClient.GetFromJsonAsync<IEnumerable<SkillDTO>>("api/skills");
-            consultant.Skills = skillsFromApi.Select(skill => new SelectListItem {
-                Value = skill.Id.ToString(), Text = skill.Title 
+            consultant.Skills = skillsFromApi.Select(skill => new SelectListItem
+            {
+                Value = skill.Id.ToString(),
+                Text = skill.Title
             }).ToList();
             return consultant;
         }
