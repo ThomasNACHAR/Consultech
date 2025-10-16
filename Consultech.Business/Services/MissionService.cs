@@ -61,7 +61,10 @@ internal sealed class MissionService(ConsultechDbContext dbContext) : IMissionSe
 
         dbContext.Missions.Add(missionToCreate);
         await dbContext.SaveChangesAsync();
-
+        if (mission.Consultant != null)
+        {
+            await AssignConsultant(missionToCreate.Id, mission.Consultant.Id);
+        }
         return missionToCreate.Id;
     }
 
@@ -90,7 +93,11 @@ internal sealed class MissionService(ConsultechDbContext dbContext) : IMissionSe
         foundMission.Client = client;
 
         var result = await dbContext.SaveChangesAsync();
-        return result > 0 ? foundMission.Id : -1;
+        if (mission.Consultant != null)
+        {
+            await AssignConsultant(foundMission.Id, mission.Consultant.Id);
+        }
+        return foundMission.Id;
     }
 
     /// <summary>

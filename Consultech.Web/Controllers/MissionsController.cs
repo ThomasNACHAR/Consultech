@@ -91,7 +91,7 @@ namespace Consultech.Web.Controllers
         // POST: MissionsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title", "Description", "StartDate", "EndDate", "Budget", "ClientId", "ConsultantId")] MissionInputViewModel mission)
+        public async Task<IActionResult> Edit(int id, [Bind("Id", "Title", "Description", "StartDate", "EndDate", "Budget", "ClientId", "ConsultantId")] MissionInputViewModel mission)
         {
             if (id != mission.Id)
                 return NotFound();

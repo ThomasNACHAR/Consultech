@@ -63,7 +63,7 @@ public static class MappingExtensions
             EndDate = mission.EndDate,
             Budget = mission.Budget,
             Client = mapNested ? mission.Client.ToDto(false) : new ClientDto(),
-            Consultant = mapNested ? mission.Consultant.ToDto(false) : new ConsultantDto()
+            Consultant = mapNested && mission.Consultant != null ? mission.Consultant.ToDto(false) : null
         };
     }
 }
