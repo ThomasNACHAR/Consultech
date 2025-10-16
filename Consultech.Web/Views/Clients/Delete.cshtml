@@ -24,7 +24,7 @@
         <dd class="col-sm-9">@Model.ActivitySector</dd>
     </dl>
 
-    <form asp-action="DeleteConfirmed" method="post">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
         <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
         <a asp-action="Index" class="btn btn-secondary ms-2">Annuler</a>
