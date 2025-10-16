@@ -13,6 +13,7 @@
     </dt>
     <dd class="col-sm-10">
         @Model.Description
+    </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.ClientCompanyName)
     </dt>
@@ -30,7 +31,7 @@
         @Html.DisplayNameFor(model => model.EndDate)
     </dt>
     <dd class="col-sm-10">
-        @Model.EndDate.ToShortDateString() ?? "En cours"
+        @Model.EndDate.ToShortDateString()
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Budget)

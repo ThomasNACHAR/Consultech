@@ -14,9 +14,9 @@ public sealed class MissionInputViewModel
     [Display(Name = "Description")]
     public string Description { get; set; } = string.Empty;
     [Display(Name = "Date de début")]
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Today;
     [Display(Name = "Date de fin")]
-    public DateTime EndDate { get; set; }
+    public DateTime EndDate { get; set; } = DateTime.Today.AddMonths(1);
     [Display(Name = "Budget")]
     public decimal Budget { get; set; }
     [Display(Name = "Client")]

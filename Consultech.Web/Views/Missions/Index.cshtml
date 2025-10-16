@@ -21,9 +21,6 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
@@ -48,16 +45,13 @@
                     @mission.Title
                 </td>
                 <td>
-                    @mission.Description
-                </td>
-                <td>
                     @mission.StartDate.ToShortDateString()
                 </td>
                 <td>
                     @mission.EndDate.ToShortDateString()
                 </td>
                 <td>
-                    @mission.Budget
+                    @mission.Budget.ToString("C")
                 </td>
                 <td>
                     @mission.ConsultantFullName

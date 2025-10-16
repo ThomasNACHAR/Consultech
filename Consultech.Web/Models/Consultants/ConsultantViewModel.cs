@@ -12,7 +12,7 @@ public sealed class ConsultantViewModel
     [Display(Name = "Email")]
     public string Email { get; set; } = string.Empty;
     [Display(Name = "Date d'embauche")]
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Today;
     [Display(Name = "Disponible")]
     public bool IsAvailable { get; set; } = true;
     [Display(Name = "Compétences")]

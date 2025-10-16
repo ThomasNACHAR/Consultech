@@ -1,46 +1,53 @@
-﻿@using Consultech.Web.Models.Consultants
-@model ConsultantInputViewModel
+﻿@using Consultech.Web.Models.Missions
+@model MissionInputViewModel
 
 @{
-    ViewData["Title"] = "Créer un Consultant";
+    ViewData["Title"] = "Créer une Mission";
 }
 
-<h1>Créer un Consultant</h1>
-<h4>Consultant</h4>
+<h1>Créer une Mission</h1>
 <hr />
 <div class="row">
     <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="ClientId" class="control-label"></label>
+                <select asp-for="ClientId" asp-items="@Model.Clients" class="form-control"></select>
+                <span asp-validation-for="ClientId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input  class="form-check-input" asp-for="IsAvailable"/>@Html.DisplayNameFor(model => model.IsAvailable)
-                </label>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SkillsId" class="form-control-label"></label>
-                <select asp-for="SkillsId" asp-items="@Model.Skills" class="form-control" multiple></select>
-                <span asp-validation-for="SkillsId" class="text-danger"></span>
+                <label asp-for="Budget" class="control-label"></label>
+                <input asp-for="Budget" class="form-control" />
+                <span asp-validation-for="Budget" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConsultantId" class="form-control-label"></label>
+                <select asp-for="ConsultantId" asp-items="@Model.Consultants" class="form-control">
+                    <option value="">-- Sélectionner un Consultant --</option>
+                </select>
+                <span asp-validation-for="ConsultantId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Créer" class="btn btn-primary" />
