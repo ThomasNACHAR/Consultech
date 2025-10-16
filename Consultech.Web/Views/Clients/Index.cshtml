@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Consultech.Web.Models.Clients.ClientViewModel>
+
+@{
+    ViewData["Title"] = "Liste des clients";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>@ViewData["Title"]</h2>
+        <a class="btn btn-primary" asp-action="Create">+ Nouveau client</a>
+    </div>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Secteur</th>
+                <th style="width:180px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var client in Model)
+                {
+                    <tr>
+                        <td>@client.CompanyName</td>
+                        <td>@client.Email</td>
+                        <td>@client.Address</td>
+                        <td>@client.ActivitySector</td>
+                        <td>
+                            <a class="btn btn-sm btn-info text-white" asp-action="Details" asp-route-id="@client.Id">Détails</a>
+                            <a class="btn btn-sm btn-warning text-white" asp-action="Edit" asp-route-id="@client.Id">Modifier</a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@client.Id">Supprimer</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">Aucun client enregistré.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

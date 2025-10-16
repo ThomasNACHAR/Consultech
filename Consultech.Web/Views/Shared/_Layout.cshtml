@@ -11,7 +11,37 @@
 </head>
 <body>
 <header>
-  
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-uppercase" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo.png" alt="logo" width="32" height="32" class="me-2" />
+                    Consultech
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Clients" asp-action="Index">Clients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Consultants" asp-action="Index">Consultants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Missions" asp-action="Index">Missions</a>
+                        </li>
+                    </ul>
+                    <span class="navbar-text text-white-50 small">
+                        © @DateTime.Now.Year - Consultech
+                    </span>
+                </div>
+            </div>
+        </nav>
 </header>
 <div class="container">
     <main role="main" class="pb-3">

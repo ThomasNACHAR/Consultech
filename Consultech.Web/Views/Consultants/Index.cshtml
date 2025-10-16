@@ -5,57 +5,67 @@
     ViewData["Title"] = "Consultants";
 }
 
-<h1>Consultants</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-semibold text-dark">@ViewData["Title"]</h2>
+        <a class="btn btn-primary" asp-action="Create">
+            <i class="bi bi-plus-lg me-1"></i>+ Nouveau consultant
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Créer un nouveau Consultant</a>
-</p>
-
-<table class="table">
-    <thhead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsAvailable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Skills)
-            </th>
-        </tr>
-    </thhead>
-    <tbody>
-        @foreach (var consultant in Model)
-        {
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
             <tr>
-                <td>
-                    @consultant.FirstName @consultant.LastName
-                </td>
-                <td>
-                    @consultant.Email
-                </td>
-                <td>
-                    @consultant.StartDate.ToShortDateString()
-                </td>
-                <td>
-                    @consultant.IsAvailable
-                </td>
-                <td>
-                    @string.Join(", ", consultant.Skills)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@consultant.Id" class="btn btn-secondary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@consultant.Id" class="btn btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@consultant.Id" class="btn btn-danger">Delete</a>
-                </td>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Date d’entrée</th>
+                <th>Disponible</th>
+                <th>Compétences</th>
+                <th style="width:180px;">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var consultant in Model)
+                {
+                    <tr>
+                        <td>@consultant.FirstName @consultant.LastName</td>
+                        <td>@consultant.Email</td>
+                        <td>@consultant.StartDate.ToShortDateString()</td>
+                        <td>
+                            @if (consultant.IsAvailable)
+                            {
+                                <span class="badge bg-success">Disponible</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Occupé</span>
+                            }
+                        </td>
+                        <td>@string.Join(", ", consultant.Skills)</td>
+                        <td>
+                            
+                                <a class="btn btn-sm btn-info text-white" asp-action=" Details" asp-route-id="@consultant.Id">Détails</a>
+                                <a asp-action="Edit" asp-route-id="@consultant.Id" class="btn btn-sm btn-warning text-white">
+                                Modifier
+                            </a>
+                                <a asp-action="Delete" asp-route-id="@consultant.Id" class="btn btn-sm btn-danger">
+                                Supprimer
+                                </a>
+                           
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-3">
+                        Aucun consultant enregistré.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
