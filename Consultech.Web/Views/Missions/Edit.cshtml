@@ -2,16 +2,17 @@
 @model MissionInputViewModel
 
 @{
-    ViewData["Title"] = "Modifier un Consultant";
+    ViewData["Title"] = "Modifier une mission";
 }
 
 <h1>Modifier</h1>
 
-<h3>Consultant</h3>
+<h3>Mission</h3>
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -43,14 +44,16 @@
                 <input asp-for="Budget" class="form-control" />
                 <span asp-validation-for="Budget" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="ConsultantId" class="form-control-label"></label>
-                <select asp-for="ConsultantId" asp-items="@Model.Consultants" class="form-control"></select>
+                <select asp-for="ConsultantId" asp-items="@Model.Consultants" class="form-control">
+                    <option value="">-- Sélectionner un Consultant --</option>
+                </select>
                 <span asp-validation-for="ConsultantId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Créer" class="btn btn-primary" />
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
             </div>
         </form>
     </div>

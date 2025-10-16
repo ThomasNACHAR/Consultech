@@ -1,4 +1,5 @@
-﻿using Consultech.Business.Abstractions;
+﻿using Consultech.API.Models;
+using Consultech.Business.Abstractions;
 using Consultech.Business.DTOs;
 using Consultech.DAL;
 using Consultech.DAL.Entities;
@@ -41,24 +42,43 @@ namespace Consultech.API.Controllers
 
         // POST: api/missions
         [HttpPost]
-        public async Task<ActionResult<Mission>> Create([FromBody] MissionDto mission)
+        public async Task<ActionResult<Mission>> Create([FromBody] MissionInput mission)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var createdId = await _missionService.Create(mission);
+            var createdId = await _missionService.Create(new MissionDto
+            {
+                Title = mission.Title,
+                Description = mission.Description,
+                StartDate = mission.StartDate,
+                EndDate = mission.EndDate,
+                Budget = mission.Budget,
+                Client = new ClientDto { Id = mission.ClientId },
+                Consultant = mission.ConsultantId.HasValue ? new ConsultantDto { Id = mission.ConsultantId.Value } : null
+            });
 
             return CreatedAtAction(nameof(GetById), new { id = mission.Id }, mission);
         }
 
         // PUT: api/missions/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] MissionDto mission)
+        public async Task<IActionResult> Update(int id, MissionInput mission)
         {
             if (id != mission.Id)
                 return BadRequest(new { message = "L'ID ne correspond pas à la mission envoyée." });
 
-            var updatedId = await _missionService.Update(mission);
+            var updatedId = await _missionService.Update(new MissionDto
+            {
+                Id = mission.Id,
+                Title = mission.Title,
+                Description = mission.Description,
+                StartDate = mission.StartDate,
+                EndDate = mission.EndDate,
+                Budget = mission.Budget,
+                Client = new ClientDto { Id = mission.ClientId },
+                Consultant = mission.ConsultantId.HasValue ? new ConsultantDto { Id = mission.ConsultantId.Value } : null
+            });
             if (updatedId <= 0)
                 return NotFound(new { message = "Mission introuvable." });
 

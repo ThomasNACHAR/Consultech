@@ -7,7 +7,6 @@ namespace Consultech.Web.Models.Missions;
 
 public sealed class MissionInputViewModel
 {
-    [HiddenInput]
     public int Id { get; set; }
     [Display(Name = "Titre")]
     public string Title { get; set; } = string.Empty;
