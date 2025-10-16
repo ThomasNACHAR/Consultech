@@ -1,8 +1,65 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Accueil - Consultech";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="py-5 text-center bg-light rounded-3 shadow-sm mt-4">
+    <div class="container py-5">
+        <h1 class="display-5 fw-bold text-primary mb-3">
+            Bienvenue sur <span class="text-dark">Consultech</span>
+        </h1>
+        <p class="fs-5 text-muted mb-4">
+            Simplifiez la gestion de vos <strong>consultants</strong>, <strong>clients</strong> et <strong>missions</strong>
+            grâce à une plateforme claire, rapide et moderne.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a asp-controller="Clients" asp-action="Index" class="btn btn-outline-primary btn-lg px-4">
+                <i class="bi bi-people-fill me-2"></i>Voir les Clients
+            </a>
+            <a asp-controller="Consultants" asp-action="Index" class="btn btn-primary btn-lg px-4">
+                <i class="bi bi-person-badge-fill me-2"></i>Voir les Consultants
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="container text-center mt-5 mb-5">
+    <h2 class="fw-semibold text-dark mb-4">Nos fonctionnalités</h2>
+    <div class="row justify-content-center g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <i class="bi bi-bar-chart-line display-4 text-primary mb-3"></i>
+                    <h5 class="card-title">Suivi des Missions</h5>
+                    <p class="card-text text-muted">
+                        Planifiez et suivez facilement vos projets et missions client depuis un tableau unique.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <i class="bi bi-person-workspace display-4 text-primary mb-3"></i>
+                    <h5 class="card-title">Gestion des Consultants</h5>
+                    <p class="card-text text-muted">
+                        Consultez le profil, les compétences et la disponibilité de vos consultants en un clic.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <i class="bi bi-building display-4 text-primary mb-3"></i>
+                    <h5 class="card-title">Suivi des Clients</h5>
+                    <p class="card-text text-muted">
+                        Centralisez les informations de vos partenaires et clients dans une interface intuitive.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

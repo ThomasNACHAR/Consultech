@@ -6,7 +6,7 @@ using Consultech.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsultTech.Api.Controllers
+namespace Consultech.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
