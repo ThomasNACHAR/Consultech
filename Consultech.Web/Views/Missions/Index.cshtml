@@ -1,0 +1,73 @@
+﻿@using Consultech.Web.Models.Missions
+@model IEnumerable<MissionViewModel>
+
+@{
+    ViewData["Title"] = "Missions";
+}
+
+<h1>Consultants</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Créer une nouvelle Mission</a>
+</p>
+
+<table class="table">
+    <thhead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientCompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Budget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConsultantFullName)
+            </th>
+        </tr>
+    </thhead>
+    <tbody>
+        @foreach (var mission in Model)
+        {
+            <tr>
+                <td>
+                    @mission.ClientCompanyName
+                </td>
+                <td>
+                    @mission.Title
+                </td>
+                <td>
+                    @mission.Description
+                </td>
+                <td>
+                    @mission.StartDate.ToShortDateString()
+                </td>
+                <td>
+                    @mission.EndDate.ToShortDateString()
+                </td>
+                <td>
+                    @mission.Budget
+                </td>
+                <td>
+                    @mission.ConsultantFullName
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@mission.Id" class="btn btn-secondary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@mission.Id" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@mission.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
