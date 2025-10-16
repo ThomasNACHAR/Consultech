@@ -2,13 +2,13 @@ namespace Consultech.Web.DTOs.Enums;
 
 public enum ActivitySector
 {
-    InformationTechnology,
+    Informatique,
     Finance,
-    Healthcare,
-    Energy,
-    Manufacturing,
-    Retail,
-    Transportation,
-    Education,
-    Telecommunications
+    Santé,
+    Énergies,
+    Industrie,
+    Commerce,
+    Transport,
+    Éducation,
+    Télécommunications
 }

@@ -16,5 +16,5 @@ public sealed class MissionDto
 
     public ClientDto Client { get; set; } = new();
 
-    public ConsultantDto Consultant { get; set; } = new();
+    public ConsultantDto? Consultant { get; set; } = new();
 }
