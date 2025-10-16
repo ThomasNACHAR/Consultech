@@ -49,12 +49,12 @@ internal sealed class ConsultantService(ConsultechDbContext dbContext) : IConsul
             LastName = consultant.LastName,
             Email = consultant.Email,
             StartDate = consultant.StartDate,
-            IsAvailable = consultant.IsAvailable
+            IsAvailable = consultant.IsAvailable,
         };
 
         dbContext.Consultants.Add(consultantToCreate);
         await dbContext.SaveChangesAsync();
-
+        await this.AssignSkills(consultantToCreate.Id, consultant.Skills.Select(s => s.Id).ToList());
         return consultantToCreate.Id;
     }
 
@@ -76,8 +76,9 @@ internal sealed class ConsultantService(ConsultechDbContext dbContext) : IConsul
         foundConsultant.StartDate = consultant.StartDate;
         foundConsultant.IsAvailable = consultant.IsAvailable;
 
-        var result = await dbContext.SaveChangesAsync();
-        return result > 0 ? foundConsultant.Id : -1;
+        await dbContext.SaveChangesAsync();
+        await this.AssignSkills(foundConsultant.Id, consultant.Skills.Select(s => s.Id).ToList());
+        return foundConsultant.Id;
     }
 
     /// <summary>
@@ -98,7 +99,7 @@ internal sealed class ConsultantService(ConsultechDbContext dbContext) : IConsul
     /// <summary>
     /// Assigns one or more skills to a consultant.
     /// </summary>
-    public async Task<bool> AssignSkills(int consultantId, List<int> skillIds)
+    private async Task<bool> AssignSkills(int consultantId, List<int> skillIds)
     {
         var consultant = await dbContext.Consultants
             .Include(c => c.Skills)

@@ -2,7 +2,8 @@
 
 public enum SkillLevel
 {
-    Beginner,
-    Intermediate,
+    Débutant,
+    Intermédiaire,
+    Avancé,
     Expert
 }

@@ -13,7 +13,13 @@ public sealed class MissionViewModel
     public DateTime StartDate { get; set; }
     [Display(Name = "Date de fin")]
     public DateTime EndDate { get; set; }
+    [Display(Name = "Budget")]  
+    public decimal Budget { get; set; }
+    [Display(Name = "Client")]
     public string ClientCompanyName { get; set; } = string.Empty;
+    [Display(Name = "Consultant")]
+    public string? ConsultantFullName { get; set; } = null;
+
 
     public static MissionViewModel FromDTO(DTOs.MissionDTO mission) => new()
     {
@@ -22,6 +28,8 @@ public sealed class MissionViewModel
         Description = mission.Description,
         StartDate = mission.StartDate,
         EndDate = mission.EndDate,
-        ClientCompanyName = mission.Client.CompanyName
+        Budget = mission.Budget,
+        ClientCompanyName = mission.Client.CompanyName,
+        ConsultantFullName = mission.Consultant is not null ? $"{mission.Consultant.FirstName} {mission.Consultant.LastName}" : null
     };
 }
