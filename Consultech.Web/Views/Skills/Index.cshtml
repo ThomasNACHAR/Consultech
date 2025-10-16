@@ -1,0 +1,38 @@
+﻿@using Consultech.Web.Models.Skills
+@model IEnumerable<SkillViewModel>
+
+@{
+    ViewData["Title"] = "Compétences";
+}
+
+<h1>Compétences</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Créer une nouvelle compétence</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(m => m.Title)</th>
+        <th>@Html.DisplayNameFor(m => m.Category)</th>
+        <th>@Html.DisplayNameFor(m => m.Level)</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var skill in Model)
+    {
+        <tr>
+            <td>@skill.Title</td>
+            <td>@skill.Category</td>
+            <td>@skill.Level</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@skill.Id" class="btn btn-secondary">Edit</a> |
+                <a asp-action="Details" asp-route-id="@skill.Id" class="btn btn-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@skill.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

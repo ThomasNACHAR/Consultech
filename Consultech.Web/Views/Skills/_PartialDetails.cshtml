@@ -1,0 +1,16 @@
+@using Consultech.Web.Models.Skills
+@model SkillViewModel
+
+<dl class="row">
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Title)</dt>
+    <dd class="col-sm-10">@Model.Title</dd>
+
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Category)</dt>
+    <dd class="col-sm-10">@Model.Category</dd>
+
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Level)</dt>
+    <dd class="col-sm-10">@Model.Level</dd>
+
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Consultants)</dt>
+    <dd class="col-sm-10">@string.Join(", ", Model.Consultants)</dd>
+</dl>

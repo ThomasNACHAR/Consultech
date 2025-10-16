@@ -5,7 +5,12 @@ namespace Consultech.Web.DTOs;
 public sealed class SkillDTO
 {
     public int Id { get; set; }
+
     public string Title { get; set; } = string.Empty;
+
     public string Category { get; set; } = string.Empty;
-    public SkillLevel skillLevel { get; set; }
+
+    public SkillLevel Level { get; set; } = new();
+    
+    public List<ConsultantDTO> Consultants { get; set; } = new();
 }

@@ -1,0 +1,18 @@
+﻿@using Consultech.Web.Models.Skills
+@model SkillViewModel
+
+@{
+    ViewData["Title"] = "Détails de la Compétence";
+}
+
+<h1>Détails</h1>
+
+<div>
+    <h4>Compétence</h4>
+    <hr />
+    <partial name="_PartialDetails" model="@Model" />
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Modifier</a>
+    <a asp-action="Index" class="btn btn-primary">Retour à la liste</a>
+</div>
