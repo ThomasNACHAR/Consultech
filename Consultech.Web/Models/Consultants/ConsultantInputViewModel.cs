@@ -13,9 +13,10 @@ public sealed class ConsultantInputViewModel
     [Display(Name = "Nom")]
     public string LastName { get; set; } = string.Empty;
     [Display(Name = "Email")]
+    [EmailAddress]
     public string Email { get; set; } = string.Empty;
     [Display(Name = "Date d'embauche")]
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Today;
     [Display(Name = "Disponible")]
     public bool IsAvailable { get; set; } = true;
     [Display(Name = "Compétences")]
